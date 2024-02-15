@@ -6,7 +6,7 @@ import Footer from "./_components/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Barber - Store",
+  title: "Barber Store - Encontre sua barbearia favorita.",
   description: "Faça seu agendamento em sua barbearia favorita",
 };
 
