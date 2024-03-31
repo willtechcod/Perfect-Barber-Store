@@ -3,7 +3,7 @@
 import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/app/_components/ui/sheet";
+import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/app/_components/ui/sheet";
 import { Barbershop, Service } from "@prisma/client";
 import { ptBR } from "date-fns/locale";
 import { signIn } from "next-auth/react";
@@ -21,7 +21,7 @@ interface ServiceItemProps {
 }
 
 const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) => {
-    const [date, setDate] = useState<Date | undefined>(new Date());
+    const [date, setDate] = useState<Date | undefined>(undefined);
     const [hour, setHour] = useState<string | undefined>();
 
     const handleDateClick = (date: Date | undefined) => {
@@ -45,8 +45,8 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
 
     return ( 
         <Card>
-            <CardContent className="p-3">
-                <div className="flex gap-4 items-center">
+            <CardContent className="p-3 w-full">
+                <div className="flex gap-4 items-center w-full">
                     <div className="relative min-h-[110px] min-w-[110px] max-w-[110px] max-h-[110px]">
                         <Image
                         className="rounded-lg"
@@ -110,10 +110,11 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
                                             }}
                                         />
                                         </div>
-                                        {/** Mostrar lista de horários apenas se alguma data estiver selecionada */}
+                                        
                                         
                                         {date && (
-                                            <div className="flex gap-3 overflow-x-auto py-6 px-5 border-y border-solid border-secondary [&::-webkit-scrollbar]:hidden">
+                                            <div className="flex gap-3 overflow-x-auto py-6 px-5 border-t border-solid border-secondary 
+                                            [&::-webkit-scrollbar]:hidden">
                                                 {timeList.map((time) => (
                                                     <Button onClick={() => handleHourClick(time)} variant={hour === time ? 'default' : 'outline'} className='rounded-full' key={time}>
                                                         {time}
@@ -124,7 +125,7 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
 
                                         <div className="py-6 px-5 border-t border-solid border-secondary">
                                             <Card>
-                                                <CardContent className="p-3">
+                                                <CardContent className="p-3 gap-3 flex flex-col">
                                                     <div className="flex justify-between">
                                                         <h2 className="font-bold">{service.name}</h2>
                                                         <h3 className="font-bold text-sm">
@@ -135,6 +136,7 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
                                                             }).format(Number(service.price))}
                                                         </h3>
                                                     </div>
+                                                    
                                                     {date && (
                                                         <div className="flex justify-between">
                                                             <h3 className="text-gray-400 text-sm">Data</h3>
@@ -144,6 +146,7 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
                                                             })}</h4>
                                                         </div>
                                                     )}
+
                                                     {hour && (
                                                         <div className="flex justify-between">
                                                             <h3 className="text-gray-400 text-sm">Horário</h3>
@@ -155,8 +158,11 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
                                                             <h4 className="text-sm">{barbershop.name}</h4>
                                                         </div>
                                                 </CardContent>
-                                            </Card>
+                                            </Card>       
                                         </div>
+                                        <SheetFooter className="px-5">
+                                            <Button disabled={!hour || !date }>Confirmar agendamento</Button>
+                                        </SheetFooter>
                                 </SheetContent>
                             </Sheet>
                         </div>
