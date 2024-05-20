@@ -6,15 +6,35 @@ import BookingItem from "../_components/booking-item";
 import { db } from "../_lib/prisma";
 import BarbershopItem from "./_components/barbershop-item";
 import Footer from "../_components/footer";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 
 export default async function Home() {
-  const barbershops = await db.barbershop.findMany({});
+  const session = await getServerSession(authOptions);
+
+  const [barbershops, confirmedBookings] = await Promise.all([
+    db.barbershop.findMany({}),
+    session?.user
+      ? db.booking.findMany({
+          where: {
+            userId: (session.user as any).id,
+            date: {
+              gte: new Date(),
+            },
+          },
+          include: {
+            service: true,
+            barbershop: true,
+          },
+        })
+      : Promise.resolve([]),
+  ]);
 
   return (
     <div>
       <Header />
       <div className="px-5 pt-5">
-        <h2 className="text-xl font-bold">Olá, William!</h2>
+        <h2 className="text-xl font-bold">Olá, {session?.user?.name}</h2>
         <p className="capitalize text-sm">
           {format(new Date(), "EEEE',' dd 'de' MMMM", {
             locale: ptBR,
@@ -24,12 +44,17 @@ export default async function Home() {
       <div className="px-5 mt-5">
         <Search />
       </div>
-      {/*
-      <div className="px-5 mt-6">
-        <h2 className="text-xs uppercase mb-3 text-gray-400 font-bold">Agendamentos</h2>
-        <BookingItem />
+
+      <div className="mt-6 ml-4">
+        <h2 className="text-xs uppercase mb-3 text-gray-400 font-bold">
+          Agendamentos
+        </h2>
+        <div className="px-5 flex gap-3 overflow-x-auto [&::-webkit-scrollbar]:hidden">
+          {confirmedBookings.map((booking) => (
+            <BookingItem key={booking.id} booking={booking} />
+          ))}
         </div>
-        */}
+      </div>
 
       <div className="mt-6">
         <h2 className="px-5 text-xs uppercase mb-3 text-gray-400 font-bold">
