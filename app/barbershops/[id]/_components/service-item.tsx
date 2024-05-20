@@ -38,12 +38,12 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
 
     useEffect(() => {
         if (!date) {
-            return
+            return;
         }
 
         const refreshAvailabkeHours = async () => {
-            const _dayBooking =  await getDayBookings(date);
-            setDayBookings(_dayBooking);
+            const _dayBookings =  await getDayBookings(date);
+            setDayBookings(_dayBookings);
         };
         refreshAvailabkeHours();
     }, [date]);
@@ -73,8 +73,8 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
                 return;
             }
 
-            const dateHour = Number(hour.split(':')[0]);
-            const dateMinutes = Number(hour.split(':')[1]);
+            const dateHour = Number(hour.split(":")[0]);
+            const dateMinutes = Number(hour.split(":")[1]);
 
             const newDate = setMinutes(setHours(date, dateHour), dateMinutes);
 
@@ -115,17 +115,19 @@ const ServiceItem = ({service, barbershop, isAuthenticated}: ServiceItemProps) =
             const timeHour = Number(time.split(":")[0]);
             const timeMinutes = Number(time.split(":")[1]);
 
-            const booking = dayBookings.find(booking => {
+            const booking = dayBookings.find((booking) => {
                 const bookingHour = booking.date.getHours();
                 const bookingMinutes = booking.date.getMinutes();
+
                 return bookingHour === timeHour && bookingMinutes === timeMinutes;
-            })
+            });
+
             if (!booking){
-                return true
+                return true;
             }
 
-            return false
-        })
+            return false;
+        });
     }, [date, dayBookings]);
 
     return ( 
