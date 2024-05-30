@@ -21,12 +21,10 @@ export default function RootLayout({
     <html lang="pt-BR">
       <body className={`${inter.className} dark`}>
         <AuthProvider>
-        {children}
-        <Toaster />
-        <Footer/>
+          {children}
+          <Toaster />
         </AuthProvider>
-        </body>
+      </body>
     </html>
   );
 }
-
