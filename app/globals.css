@@ -42,5 +42,47 @@
   }
   body {
     @apply bg-background text-foreground antialiased h-screen flex flex-col;
+    
+  }
+  
+}
+
+@media (min-width: 367px) and (max-width: 576px){
+  #cardItem {
+    min-width: 447px;
+    max-width: 447px;
+  }
+}
+
+
+@media (min-width: 576px) and (max-width: 768px){
+  #cardItem {
+    min-width: 355px;
+    max-width: 355px;
+  }
+}
+@media (min-width: 768px) and (max-width: 992px){
+  #cardItem {
+    min-width: 355px;
+    max-width: 355px;
+  }
+}
+@media (min-width: 992px) and (max-width: 1024px){
+  #cardItem {
+    min-width: 355px;
+    max-width: 355px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1216px){
+  #cardItem {
+    min-width: 355px;
+    max-width: 355px;
+  }
+}
+@media (min-width: 1216px) and (max-width: 2408px){
+  #cardItem {
+    min-width: 612px;
+    max-width: 612px;
   }
 }
