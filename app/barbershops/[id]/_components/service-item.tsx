@@ -1,5 +1,6 @@
 "use client";
 
+import { Barbershop, Service } from "@prisma/client";
 import { Button } from "@/app/_components/ui/button";
 import { Calendar } from "@/app/_components/ui/calendar";
 import { Card, CardContent } from "@/app/_components/ui/card";
@@ -11,26 +12,26 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/app/_components/ui/sheet";
-import { Barbershop, Booking, Service } from "@prisma/client";
+import { Booking } from "@prisma/client";
 import { ptBR } from "date-fns/locale";
 import { signIn, useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { generateDayTimeList } from "../_helpers/hours";
-import { format, setHours, setMinutes } from "date-fns";
+import { format, isDate, setHours, setMinutes } from "date-fns";
 import { saveBooking } from "../_actions/save-booking";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { getDayBookings } from "../_actions/get-day-bookings";
 
-interface ServiceItemProps {
+export interface ServiceItemProps {
   barbershop: Barbershop;
   service: Service;
   isAuthenticated?: boolean;
 }
 
-const ServiceItem = ({
+export const ServiceItem = ({
   service,
   barbershop,
   isAuthenticated,
